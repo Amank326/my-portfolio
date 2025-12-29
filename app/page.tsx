@@ -3,6 +3,13 @@
 import { Mail, Phone, Github, Linkedin, ChevronDown } from "lucide-react"
 import { useEffect, useState } from "react"
 import Link from "next/link"
+import dynamic from "next/dynamic"
+import AnimatedSection from "@/components/AnimatedSection"
+import Card3D from "@/components/Card3D"
+import ParallaxSection3D from "@/components/ParallaxSection3D"
+
+const FloatingShapes3D = dynamic(() => import("@/components/FloatingShapes3D"), { ssr: false })
+const ParticlesBackground3D = dynamic(() => import("@/components/ParticlesBackground3D"), { ssr: false })
 
 export default function PortfolioHome() {
   const [scrolled, setScrolled] = useState(false)
@@ -17,6 +24,7 @@ export default function PortfolioHome() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <ParticlesBackground3D />
       <nav
         className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? "bg-card/95 backdrop-blur-md border-b border-border" : "bg-transparent"}`}
       >
@@ -48,8 +56,11 @@ export default function PortfolioHome() {
         {/* Background gradient blobs */}
         <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/5 rounded-full blur-3xl"></div>
+        
+        {/* 3D Floating Shapes */}
+        <FloatingShapes3D />
 
-        <div className="relative z-10 max-w-4xl text-center space-y-8 animate-fade-in">
+        <ParallaxSection3D speed={0.3} className="relative z-10 max-w-4xl text-center space-y-8 animate-fade-in">
           <div className="space-y-4">
             <h2 className="text-5xl md:text-7xl font-bold tracking-tight">Aman Kumar Gupta</h2>
             <p className="text-xl md:text-2xl text-muted-foreground">Full Stack Developer & Software Engineer</p>
@@ -101,14 +112,14 @@ export default function PortfolioHome() {
               <Phone size={24} />
             </a>
           </div>
-        </div>
+        </ParallaxSection3D>
 
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
           <ChevronDown className="text-accent" size={32} />
         </div>
       </section>
 
-      <section id="about" className="py-20 md:py-32 px-6 md:px-8 bg-card/30">
+      <AnimatedSection id="about" className="py-20 md:py-32 px-6 md:px-8 bg-card/30">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
             <h2 className="text-4xl md:text-5xl font-bold">About Me</h2>
@@ -148,9 +159,9 @@ export default function PortfolioHome() {
             </div>
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
-      <section id="experience" className="py-20 md:py-32 px-6 md:px-8">
+      <AnimatedSection id="experience" className="py-20 md:py-32 px-6 md:px-8">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl md:text-5xl font-bold mb-16">Experience</h2>
 
@@ -190,15 +201,16 @@ export default function PortfolioHome() {
             </div>
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
-      <section id="projects" className="py-20 md:py-32 px-6 md:px-8 bg-card/30">
+      <AnimatedSection id="projects" className="py-20 md:py-32 px-6 md:px-8 bg-card/30">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl md:text-5xl font-bold mb-16">Featured Projects</h2>
 
           <div className="grid md:grid-cols-3 gap-6">
             {/* Project 1 */}
-            <div className="group relative bg-gradient-to-br from-card to-card/50 rounded-lg overflow-hidden border border-border hover:border-accent transition h-80">
+            <Card3D>
+              <div className="group relative bg-gradient-to-br from-card to-card/50 rounded-lg overflow-hidden border border-border hover:border-accent transition h-80">
               <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent"></div>
               <div className="absolute inset-0 flex flex-col justify-end p-6 relative z-10">
                 <h3 className="text-xl font-bold mb-2">Complaint Management System</h3>
@@ -212,9 +224,11 @@ export default function PortfolioHome() {
                 </div>
               </div>
             </div>
+            </Card3D>
 
             {/* Project 2 */}
-            <div className="group relative bg-gradient-to-br from-card to-card/50 rounded-lg overflow-hidden border border-border hover:border-accent transition h-80">
+            <Card3D>
+              <div className="group relative bg-gradient-to-br from-card to-card/50 rounded-lg overflow-hidden border border-border hover:border-accent transition h-80">
               <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent"></div>
               <div className="absolute inset-0 flex flex-col justify-end p-6 relative z-10">
                 <h3 className="text-xl font-bold mb-2">Employee Management System</h3>
@@ -228,9 +242,11 @@ export default function PortfolioHome() {
                 </div>
               </div>
             </div>
+            </Card3D>
 
             {/* Project 3 */}
-            <div className="group relative bg-gradient-to-br from-card to-card/50 rounded-lg overflow-hidden border border-border hover:border-accent transition h-80">
+            <Card3D>
+              <div className="group relative bg-gradient-to-br from-card to-card/50 rounded-lg overflow-hidden border border-border hover:border-accent transition h-80">
               <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent"></div>
               <div className="absolute inset-0 flex flex-col justify-end p-6 relative z-10">
                 <h3 className="text-xl font-bold mb-2">IoT Parking System</h3>
@@ -244,11 +260,12 @@ export default function PortfolioHome() {
                 </div>
               </div>
             </div>
+            </Card3D>
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
-      <section className="py-20 md:py-32 px-6 md:px-8">
+      <AnimatedSection className="py-20 md:py-32 px-6 md:px-8">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl md:text-5xl font-bold mb-16">Skills & Certifications</h2>
 
@@ -294,9 +311,9 @@ export default function PortfolioHome() {
             </div>
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
-      <section id="contact" className="py-20 md:py-32 px-6 md:px-8 bg-gradient-to-b from-card/30 to-background">
+      <AnimatedSection id="contact" className="py-20 md:py-32 px-6 md:px-8 bg-gradient-to-b from-card/30 to-background">
         <div className="max-w-4xl mx-auto text-center space-y-8">
           <div className="space-y-4">
             <h2 className="text-4xl md:text-5xl font-bold">Let's Connect</h2>
@@ -345,7 +362,7 @@ export default function PortfolioHome() {
             Send Me an Email
           </a>
         </div>
-      </section>
+      </AnimatedSection>
 
       <footer className="py-8 px-6 md:px-8 border-t border-border">
         <div className="max-w-6xl mx-auto flex justify-between items-center text-muted-foreground text-sm">
