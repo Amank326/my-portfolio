@@ -12,6 +12,11 @@ export default function Card3D({ children, className = '' }: Card3DProps) {
   const [rotateX, setRotateX] = useState(0)
   const [rotateY, setRotateY] = useState(0)
   const [scale, setScale] = useState(1)
+  
+  // Use CSS custom property for perspective
+  const perspectiveDistance = typeof window !== 'undefined' 
+    ? getComputedStyle(document.documentElement).getPropertyValue('--perspective-distance') || '1000px'
+    : '1000px'
 
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
     const card = e.currentTarget
@@ -39,7 +44,7 @@ export default function Card3D({ children, className = '' }: Card3DProps) {
       className={`relative ${className}`}
       style={{
         transformStyle: 'preserve-3d',
-        perspective: '1000px',
+        perspective: perspectiveDistance,
       }}
       animate={{
         rotateX,

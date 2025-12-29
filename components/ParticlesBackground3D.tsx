@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useMemo } from 'react'
+import { useRef, useMemo, useEffect, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
@@ -30,9 +30,6 @@ function Particles() {
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
-          count={particlesCount}
-          array={positions}
-          itemSize={3}
           args={[positions, 3]}
         />
       </bufferGeometry>
@@ -48,6 +45,21 @@ function Particles() {
 }
 
 export default function ParticlesBackground3D() {
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    setPrefersReducedMotion(mediaQuery.matches)
+
+    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches)
+    mediaQuery.addEventListener('change', handler)
+    return () => mediaQuery.removeEventListener('change', handler)
+  }, [])
+
+  if (prefersReducedMotion) {
+    return null
+  }
+
   return (
     <div className="fixed inset-0 pointer-events-none opacity-30 z-0">
       <Canvas camera={{ position: [0, 0, 5], fov: 75 }}>

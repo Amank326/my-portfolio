@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Float, MeshDistortMaterial, Sphere, Torus, Box } from '@react-three/drei'
 import * as THREE from 'three'
@@ -81,6 +81,21 @@ function FloatingShape3() {
 }
 
 export default function FloatingShapes3D() {
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    setPrefersReducedMotion(mediaQuery.matches)
+
+    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches)
+    mediaQuery.addEventListener('change', handler)
+    return () => mediaQuery.removeEventListener('change', handler)
+  }, [])
+
+  if (prefersReducedMotion) {
+    return null
+  }
+
   return (
     <div className="absolute inset-0 pointer-events-none opacity-40">
       <Canvas camera={{ position: [0, 0, 8], fov: 50 }}>

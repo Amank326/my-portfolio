@@ -148,9 +148,8 @@ html {
 }
 
 /* 3D Perspective and Transform Styles */
-body {
-  perspective: 1000px;
-  transform-style: preserve-3d;
+:root {
+  --perspective-distance: 1000px;
 }
 
 /* Enhanced Gradient Animations */
@@ -192,4 +191,21 @@ body {
 
 .animate-pulse-glow {
   animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* Accessibility: Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .animate-gradient,
+  .animate-float,
+  .animate-pulse-glow,
+  .animate-bounce,
+  .animate-fade-in {
+    animation: none !important;
+  }
+  
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
