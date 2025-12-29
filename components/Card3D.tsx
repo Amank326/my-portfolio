@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ReactNode, useState, MouseEvent } from 'react'
+import { ReactNode, useState, MouseEvent, useMemo } from 'react'
 
 interface Card3DProps {
   children: ReactNode
@@ -13,10 +13,13 @@ export default function Card3D({ children, className = '' }: Card3DProps) {
   const [rotateY, setRotateY] = useState(0)
   const [scale, setScale] = useState(1)
   
-  // Use CSS custom property for perspective
-  const perspectiveDistance = typeof window !== 'undefined' 
-    ? getComputedStyle(document.documentElement).getPropertyValue('--perspective-distance') || '1000px'
-    : '1000px'
+  // Memoize perspective value to avoid repeated DOM queries
+  const perspectiveDistance = useMemo(() => {
+    if (typeof window !== 'undefined') {
+      return getComputedStyle(document.documentElement).getPropertyValue('--perspective-distance') || '1000px'
+    }
+    return '1000px'
+  }, [])
 
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
     const card = e.currentTarget

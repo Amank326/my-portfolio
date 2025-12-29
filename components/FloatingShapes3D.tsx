@@ -1,9 +1,10 @@
 'use client'
 
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Float, MeshDistortMaterial, Sphere, Torus, Box } from '@react-three/drei'
 import * as THREE from 'three'
+import { useReducedMotion } from '@/lib/hooks/useReducedMotion'
 
 function FloatingShape1() {
   const meshRef = useRef<THREE.Mesh>(null)
@@ -81,16 +82,7 @@ function FloatingShape3() {
 }
 
 export default function FloatingShapes3D() {
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
-    setPrefersReducedMotion(mediaQuery.matches)
-
-    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches)
-    mediaQuery.addEventListener('change', handler)
-    return () => mediaQuery.removeEventListener('change', handler)
-  }, [])
+  const prefersReducedMotion = useReducedMotion()
 
   if (prefersReducedMotion) {
     return null

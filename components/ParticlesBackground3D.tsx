@@ -1,8 +1,9 @@
 'use client'
 
-import { useRef, useMemo, useEffect, useState } from 'react'
+import { useRef, useMemo } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
+import { useReducedMotion } from '@/lib/hooks/useReducedMotion'
 
 function Particles() {
   const pointsRef = useRef<THREE.Points>(null)
@@ -45,16 +46,7 @@ function Particles() {
 }
 
 export default function ParticlesBackground3D() {
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
-    setPrefersReducedMotion(mediaQuery.matches)
-
-    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches)
-    mediaQuery.addEventListener('change', handler)
-    return () => mediaQuery.removeEventListener('change', handler)
-  }, [])
+  const prefersReducedMotion = useReducedMotion()
 
   if (prefersReducedMotion) {
     return null

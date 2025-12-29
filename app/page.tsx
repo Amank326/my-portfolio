@@ -1,15 +1,21 @@
 "use client"
 
 import { Mail, Phone, Github, Linkedin, ChevronDown } from "lucide-react"
-import { useEffect, useState } from "react"
+import { useEffect, useState, Suspense } from "react"
 import Link from "next/link"
 import dynamic from "next/dynamic"
 import AnimatedSection from "@/components/AnimatedSection"
 import Card3D from "@/components/Card3D"
 import ParallaxSection3D from "@/components/ParallaxSection3D"
 
-const FloatingShapes3D = dynamic(() => import("@/components/FloatingShapes3D"), { ssr: false })
-const ParticlesBackground3D = dynamic(() => import("@/components/ParticlesBackground3D"), { ssr: false })
+const FloatingShapes3D = dynamic(() => import("@/components/FloatingShapes3D"), { 
+  ssr: false,
+  loading: () => <div className="absolute inset-0 pointer-events-none opacity-40" />
+})
+const ParticlesBackground3D = dynamic(() => import("@/components/ParticlesBackground3D"), { 
+  ssr: false,
+  loading: () => <div className="fixed inset-0 pointer-events-none opacity-30 z-0" />
+})
 
 export default function PortfolioHome() {
   const [scrolled, setScrolled] = useState(false)
